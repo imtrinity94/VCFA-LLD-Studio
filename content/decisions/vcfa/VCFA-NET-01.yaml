@@ -1,0 +1,32 @@
+id: VCFA-NET-01
+area: vcfa-network
+title: VCF Automation network model
+appliesTo: ["9.0", "9.1"]
+status: draft
+question: Which network will the VCF Automation appliances use?
+options:
+  - id: shared
+    label: Shared subnet (VCF management network)
+    statement: deploy VCF Automation using the Shared Subnet Model.
+    summary: Uses the default management network.
+    justification: Default for the VCF Installer path; quick to deploy.
+    implications:
+      - The management network must have enough free IP addresses for VCF Automation.
+      - Moving to a separate network later may require redeploying VCF Automation.
+    recommendedWhen:
+      - { requirement: RQ-NETSEG, in: [no] }
+  - id: dedicated
+    label: Dedicated subnet
+    statement: deploy VCF Automation using the Dedicated Subnet Model.
+    summary: Separate subnet for the user-facing VCF Automation endpoints.
+    justification: Separates user-facing traffic from management to meet regulatory or security requirements (for example a DMZ).
+    implications:
+      - Cannot be deployed through the VCF Installer.
+      - The subnet must exist before deployment.
+      - Deployment goes through VCF Operations fleet management.
+    requires:
+      - { decision: VCFA-DEP-01, in: [fleet-mgmt] }
+    recommendedWhen:
+      - { requirement: RQ-NETSEG, in: [yes] }
+default: shared
+links: []

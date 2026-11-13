@@ -1,0 +1,32 @@
+id: VCFA-INT-01
+area: vcfa-integration
+title: VCF Automation instances and integration mode
+appliesTo: ["9.0", "9.1"]
+status: draft
+verify: Confirm integrated vs non-integrated capabilities for the target version.
+question: Will there be a single VCF Automation instance integrated with VCF Operations, or additional instances?
+context: >
+  In integrated mode, certificate and password management, VCF SSO, and
+  VCF Operations for Logs integration are handled through VCF Operations. In
+  non-integrated mode, only Day-N operations (backup and restore, NTP, power)
+  are available from VCF Operations.
+options:
+  - id: single
+    label: Single integrated instance
+    statement: deploy a single VCF Automation instance as part of the VCF deployment.
+    summary: One instance with full VCF Operations integration.
+    justification: No requirement for additional instances; full integration features.
+    implications: []
+    recommendedWhen:
+      - { requirement: RQ-VCFA-COUNT, in: [one] }
+  - id: additional
+    label: Additional non-integrated instance(s)
+    statement: deploy additional VCF Automation instances in non-integrated mode.
+    summary: Extra instances with reduced VCF Operations integration.
+    justification: Needed when separate automation instances are required.
+    implications:
+      - Certificate, password and SSO management handled outside VCF Operations for those instances.
+    recommendedWhen:
+      - { requirement: RQ-VCFA-COUNT, in: [more] }
+default: single
+links: []

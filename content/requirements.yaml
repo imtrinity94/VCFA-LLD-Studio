@@ -1,0 +1,132 @@
+# Customer-context questions asked before design decisions.
+# Decision options point at these via  recommendedWhen: [{ requirement: RQ-..., in: [...] }]
+# (or { all: [cond, cond] } when several answers must hold together).
+# Answers are stored only in the browser / customer profile JSON, never in this repo.
+
+groups:
+  - { id: topology,  title: Topology and Availability }
+  - { id: tenancy,   title: Tenancy and Consumption }
+  - { id: platform,  title: VCF Automation Platform }
+  - { id: security,  title: Security and Networking }
+
+requirements:
+  # ---- topology ----
+  - id: RQ-SITES
+    group: topology
+    question: How many data centre sites will host the private cloud?
+    options:
+      - { id: one, label: One site }
+      - { id: multi, label: Two or more sites }
+
+  - id: RQ-ISOLATION
+    group: topology
+    question: Do any parts of the estate need fully separate management planes (sovereignty, regulation, separate operations teams)?
+    options:
+      - { id: no, label: "No" }
+      - { id: yes, label: "Yes" }
+
+  - id: RQ-AVAIL
+    group: topology
+    question: What availability is required for the management and self-service plane?
+    help: Standard means a short outage while vSphere HA restarts appliances is acceptable.
+    options:
+      - { id: standard, label: Standard (vSphere HA restart is acceptable) }
+      - { id: high, label: High (must survive a node or host failure without outage) }
+      - { id: high-dr, label: High plus recovery at a second site }
+
+  # ---- tenancy ----
+  - id: RQ-TENANTS
+    group: tenancy
+    question: Who will consume the platform?
+    options:
+      - { id: single, label: One internal IT team / single consumer }
+      - { id: multi-bu, label: Several internal business units that need separation }
+      - { id: provider, label: External customers (service provider model) }
+
+  - id: RQ-MIGRATION
+    group: tenancy
+    question: Is there existing Aria Automation 8.x content (templates, workflows, subscriptions) to bring across?
+    options:
+      - { id: yes, label: "Yes" }
+      - { id: no, label: "No (greenfield consumption)" }
+
+  - id: RQ-K8S
+    group: tenancy
+    question: Do consumers need Kubernetes (VKS) or namespace-based self-service?
+    options:
+      - { id: yes, label: "Yes, from the start" }
+      - { id: later, label: Later phase }
+      - { id: no, label: "No, VMs only" }
+
+  - id: RQ-SELFNET
+    group: tenancy
+    question: Should tenants create their own networks on demand?
+    options:
+      - { id: yes, label: "Yes" }
+      - { id: no, label: "No, networks are pre-provisioned by the network team" }
+
+  - id: RQ-XAAS
+    group: tenancy
+    question: Will the catalog offer non-IaaS services (for example AD, DNS, CMDB, ticketing actions)?
+    options:
+      - { id: yes, label: "Yes" }
+      - { id: no, label: "No, machine provisioning only" }
+
+  # ---- platform ----
+  - id: RQ-PATH
+    group: platform
+    question: When is VCF Automation deployed?
+    options:
+      - { id: greenfield, label: Together with a new VCF deployment }
+      - { id: existing, label: Added to an existing VCF 9 fleet }
+
+  - id: RQ-SCALE
+    group: platform
+    question: What scale is expected for VCF Automation? (Check the current sizing guide.)
+    options:
+      - { id: small, label: Small (lab, PoC, small production) }
+      - { id: medium, label: Medium }
+      - { id: large, label: Large }
+
+  - id: RQ-VCFA-COUNT
+    group: platform
+    question: How many VCF Automation instances are required?
+    options:
+      - { id: one, label: One }
+      - { id: more, label: More than one }
+
+  - id: RQ-VRO
+    group: platform
+    question: Are there existing vRO workflows or plug-ins to reuse?
+    options:
+      - { id: yes, label: "Yes" }
+      - { id: no, label: "No" }
+
+  - id: RQ-ORG-WORKFLOWS
+    group: platform
+    question: Will tenant organizations author and publish their own Orchestrator workflows?
+    options:
+      - { id: no, label: "No, the provider team owns workflows" }
+      - { id: yes, label: "Yes" }
+
+  # ---- security ----
+  - id: RQ-NETSEG
+    group: security
+    question: Must the user-facing VCF Automation network be separate from the management network (DMZ, security policy)?
+    options:
+      - { id: no, label: "No" }
+      - { id: yes, label: "Yes" }
+
+  - id: RQ-EXTLB
+    group: security
+    question: Is an enterprise or external load balancer mandated in front of user-facing services?
+    options:
+      - { id: no, label: "No" }
+      - { id: yes, label: "Yes" }
+
+  - id: RQ-IDP
+    group: security
+    question: Will provider administrators and tenant users authenticate against the same identity provider?
+    options:
+      - { id: same, label: Same IdP }
+      - { id: different, label: Different IdPs }

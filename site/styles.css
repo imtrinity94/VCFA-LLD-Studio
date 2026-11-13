@@ -39,7 +39,6 @@ button.link { border: 0; background: none; padding: 0; color: var(--accent2); fo
 .spacer { flex: 1; }
 .menu { display: flex; align-items: center; gap: 2px; }
 .sep { width: 1px; height: 18px; background: var(--line); margin: 0 6px; }
-.tplstatus { width: 100%; color: var(--muted); text-align: right; margin-top: -6px; }
 .bad { color: var(--bad); }
 
 /* design view */
@@ -113,3 +112,19 @@ h2.domain { margin: 8px 0 4px; font-size: 18px; color: var(--accent); }
   .sidenav { position: static; max-height: none; }
   .top { flex-wrap: wrap; }
 }
+
+/* requirements */
+.narrow { max-width: 900px; }
+.pagehead { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; }
+.pagehead p { margin-top: 0; }
+.card.req.unanswered { border-left: 3px solid #e3c27a; }
+.drives { font-size: 11px; color: var(--muted); margin-left: 6px; }
+.seg { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 10px 0 6px; }
+.segopt { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line); border-radius: 6px; padding: 5px 10px; cursor: pointer; font-size: 13px; }
+.segopt:hover { border-color: #c4cbd3; }
+.segopt.sel { border-color: var(--accent2); background: #f3f7fb; }
+.segopt input { margin: 0; }
+.rqnote { width: 100%; border: 1px solid var(--line); border-radius: 6px; padding: 5px 8px; font-size: 12px; color: var(--ink2); }
+.recwhy { font-size: 12px; color: var(--accent2); margin-top: 2px; }
+.pill.warn { background: var(--warnbg); color: var(--warn); }
+.area h3 small { font-weight: normal; color: var(--muted); font-family: Consolas, monospace; font-size: 11px; margin-left: 4px; }

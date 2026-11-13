@@ -1,21 +1,36 @@
 # LLD section order. Decisions point at an area id; the generator emits areas in this order.
 # Domain order matters: VCF decisions come first because VCFA decisions depend on them.
+#
+# reqPrefix + area code + customer code build the per-customer design requirement IDs,
+# e.g. VCF-AUTO-NET-<CODE>-001 (numbered per area).
+# inline: true  -> the Broadcom VCFA template has a dedicated slot for this area's table.
+#                  Areas without a slot are rendered under "Additional Design Decisions".
 domains:
   - id: vcf
     title: VMware Cloud Foundation (Platform)
+    reqPrefix: VCF
   - id: vcfa
     title: VCF Automation
+    reqPrefix: VCF-AUTO
 
 areas:
-  # ---- VCF ----
-  - { id: vcf-fleet,     domain: vcf,  title: Fleet and Instance Topology }
-  - { id: vcf-domains,   domain: vcf,  title: Workload Domain Design }
-  - { id: vcf-identity,  domain: vcf,  title: Identity and Access }
-  - { id: vcf-network,   domain: vcf,  title: Networking for Workloads }
-  - { id: vcf-supervisor, domain: vcf, title: vSphere Supervisor }
-  # ---- VCFA ----
-  - { id: vcfa-platform, domain: vcfa, title: VCF Automation Platform }
-  - { id: vcfa-tenancy,  domain: vcfa, title: Tenancy and Organizations }
-  - { id: vcfa-regions,  domain: vcfa, title: Regions and Resource Model }
-  - { id: vcfa-content,  domain: vcfa, title: Catalog and Templates }
-  - { id: vcfa-extensibility, domain: vcfa, title: Extensibility (Orchestrator / ABX) }
+  # ---- VCF (decided in the VCF LLD; referenced by the VCFA LLD as dependencies) ----
+  - { id: vcf-fleet,      domain: vcf,  code: FLT,  title: Fleet and Instance Topology }
+  - { id: vcf-domains,    domain: vcf,  code: WLD,  title: Workload Domain Design }
+  - { id: vcf-identity,   domain: vcf,  code: IAM,  title: Identity and Access }
+  - { id: vcf-network,    domain: vcf,  code: NET,  title: Networking for Workloads }
+  - { id: vcf-supervisor, domain: vcf,  code: SUP,  title: vSphere Supervisor }
+  # ---- VCFA (order follows the Broadcom VCF Automation design chapter) ----
+  - { id: vcfa-deploy,       domain: vcfa, code: DEP,  inline: true, title: Deployment Path }
+  - { id: vcfa-tenancy,      domain: vcfa, code: TEN,  inline: true, title: Tenancy and Organizations }
+  - { id: vcfa-ha,           domain: vcfa, code: HA,   inline: true, title: Availability Model }
+  - { id: vcfa-sizing,       domain: vcfa, code: SIZE, inline: true, title: Sizing }
+  - { id: vcfa-network,      domain: vcfa, code: NET,  inline: true, title: Network Design }
+  - { id: vcfa-iam,          domain: vcfa, code: IAM,  inline: true, title: Identity and Access Management }
+  - { id: vcfa-lb,           domain: vcfa, code: LB,   inline: true, title: Load Balancing }
+  - { id: vcfa-orchestrator, domain: vcfa, code: ORCH, inline: true, title: Orchestrator Deployment }
+  - { id: vcfa-integration,  domain: vcfa, code: INT,  inline: true, title: Integration Mode }
+  - { id: vcfa-backup,       domain: vcfa, code: BKP,  inline: true, title: Backup and Restore }
+  - { id: vcfa-regions,      domain: vcfa, code: REG,  title: Regions and Resource Model }
+  - { id: vcfa-content,      domain: vcfa, code: CAT,  title: Catalog and Templates }
+  - { id: vcfa-extensibility, domain: vcfa, code: EXT, title: Extensibility Engine }

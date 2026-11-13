@@ -1,0 +1,44 @@
+id: VCFA-SIZE-01
+area: vcfa-sizing
+title: VCF Automation size
+appliesTo: ["9.0", "9.1"]
+status: draft
+verify: Take node counts and resource figures from the current sizing guide for the target version.
+question: Which VCF Automation size will be deployed?
+context: Small is a single node. Medium and Large are three-node deployments. Node size can be changed after deployment.
+options:
+  - id: small
+    label: Small (1 node)
+    statement: deploy the Small (single-node) size of VCF Automation.
+    summary: Lowest footprint; single node.
+    justification: Sufficient for labs, proofs of concept and small environments.
+    implications:
+      - No application-level availability.
+    requires:
+      - { decision: VCFA-HA-01, in: [single-node] }
+    recommendedWhen:
+      - { requirement: RQ-SCALE, in: [small] }
+  - id: medium
+    label: Medium (3 nodes)
+    statement: deploy the Medium (three-node) size of VCF Automation.
+    summary: Three-node cluster for typical production.
+    justification: Meets expected production load with application-level availability.
+    implications:
+      - Compute and storage for three nodes in the management domain.
+    requires:
+      - { decision: VCFA-HA-01, in: [ha] }
+    recommendedWhen:
+      - { requirement: RQ-SCALE, in: [medium] }
+  - id: large
+    label: Large (3 nodes)
+    statement: deploy the Large (three-node) size of VCF Automation.
+    summary: Three larger nodes for high scale.
+    justification: Needed for large numbers of deployments, users or tenants.
+    implications:
+      - Highest management domain resource consumption.
+    requires:
+      - { decision: VCFA-HA-01, in: [ha] }
+    recommendedWhen:
+      - { requirement: RQ-SCALE, in: [large] }
+default: medium
+links: [td-vcf9-planning]

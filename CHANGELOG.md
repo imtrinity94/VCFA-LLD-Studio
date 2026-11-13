@@ -1,6 +1,18 @@
 # Changelog
 
-Newest first. The catalogue version is the `version` in `package.json` and is stamped into every exported LLD.
+Newest first. The catalogue version is the `version` in `package.json` and is stamped into every export.
+
+## 0.2.0 — 2026-11-13
+
+- Changed focus from generating the LLD to selecting the design: the main output is now the Design Reference Sheet (.xlsx), with Overview, Requirements, Design Decisions, Open Items, References, Diagrams and Glossary sheets.
+- New Requirements step: 16 customer-context questions in `content/requirements.yaml`. Decision options are recommended from the answers through `recommendedWhen` (requirement conditions and `all:` groups).
+- The Design view shows why each option is recommended and flags overrides. *Apply recommendations* resolves dependency chains over several passes.
+- Every decision has a "basis": Recommended, Override, Catalogue default or Architect choice. Overrides are listed as open items to justify.
+- Per-customer requirement IDs `<prefix>-<area code>-<customer code>-<NNN>`, numbered per area. There is a new customer code field.
+- VCFA areas follow the VCF Automation design chapter order. Added 9 generic, paraphrased VCFA decisions: deployment path, platform perspective, size, network model, provider/tenant IdP, load balancing, Orchestrator deployment, integration mode and backup (22 decisions in total, all draft).
+- Options have a `statement` that completes "<Customer> will …" for the LLD requirement sentence.
+- `VCFA-DEP-01` (single node vs HA) was renamed to `VCFA-HA-01`. `VCFA-DEP-01` now means deployment path.
+- Removed DOCX and Markdown export from the UI; Word template work is parked. Dropped docxtemplater and pizzip, and added exceljs.
 
 ## 0.1.0 — 2026-11-13
 

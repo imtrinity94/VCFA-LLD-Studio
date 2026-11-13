@@ -1,10 +1,27 @@
-# Authoring decisions
+# Authoring requirements and decisions
+
+## Requirements
+
+`content/requirements.yaml` holds the customer-context questions. Each one has an `id` (`RQ-...`), a `group`, a `question`, an optional `help` and at least two `options`. The answers live only in the customer profile.
+
+Decision options use the answers through `recommendedWhen`:
+
+```yaml
+recommendedWhen:
+  - { requirement: RQ-NETSEG, in: [yes] }                    # any listed condition recommends the option
+  - { all: [{ requirement: RQ-K8S, in: [yes] },              # every condition in `all` must hold
+            { requirement: RQ-MIGRATION, in: [no] }] }
+```
+
+Write conditions so that, for any one set of answers, a single option is recommended. When two options are both recommended, *Apply recommendations* skips that decision and you choose by hand.
+
+## Decisions
 
 Each decision is one YAML file: `content/decisions/<domain>/<ID>.yaml`. The file name must match the `id`.
 
 ## ID convention
 
-`<DOMAIN>-<AREA>-<NN>`. For example, `VCF-IAM-01` or `VCFA-TEN-01`. Once an ID is published, never reuse or renumber it, because saved customer profiles refer to it.
+`<DOMAIN>-<AREA>-<NN>`. For example, `VCF-IAM-01` or `VCFA-TEN-01`. These are catalogue IDs. The per-customer requirement IDs on the reference sheet are generated as `<reqPrefix>-<area code>-<customer code>-<NNN>`, numbered per area. Once an ID is published, never reuse or renumber it, because saved customer profiles refer to it.
 
 ## Full example
 
@@ -26,6 +43,7 @@ when:                       # optional: show the decision only if…
 options:
   - id: all-apps
     label: All Apps organizations
+    statement: use All Apps organizations.   # completes "<Customer> will ..." on the sheet
     summary: One line shown on the card.
     justification: Default justification text written into the LLD.
     implications:

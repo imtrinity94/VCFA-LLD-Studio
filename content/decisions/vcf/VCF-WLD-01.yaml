@@ -7,17 +7,23 @@ question: Will tenant workloads run in the management domain or in dedicated VI 
 options:
   - id: consolidated
     label: Consolidated (workloads in management domain)
+    statement: run tenant workloads in the management domain.
     summary: Management and tenant workloads share the management domain clusters.
     justification: Smallest footprint for small environments.
     implications:
       - Resource contention between management appliances and workloads must be controlled.
       - Lifecycle of tenant capacity is tied to the management domain.
+    recommendedWhen:
+      - { requirement: RQ-SCALE, in: [small] }
   - id: dedicated
     label: Dedicated VI workload domain(s)
+    statement: run tenant workloads in dedicated VI workload domains.
     summary: Tenant workloads run in one or more separate VI workload domains.
     justification: Isolates management from consumption capacity and allows independent lifecycle and scale.
     implications:
       - Additional vCenter (and NSX, depending on design) per workload domain.
+    recommendedWhen:
+      - { requirement: RQ-SCALE, in: [medium, large] }
 default: dedicated
 links: [td-vcf9-design]
 diagrams: [vcf-hierarchy]

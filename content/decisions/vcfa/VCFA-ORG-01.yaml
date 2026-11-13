@@ -8,15 +8,21 @@ question: What does one VCF Automation organization represent?
 options:
   - id: per-bu
     label: One organization per business unit / tenant
+    statement: create one organization per business unit or tenant.
     summary: Each BU gets its own organization with its own admins.
     justification: Strong separation of content, identity and quota between tenants.
     implications:
       - Content (templates, images) must be shared or duplicated per organization.
+    recommendedWhen:
+      - { requirement: RQ-TENANTS, in: [multi-bu, provider] }
   - id: single-org
     label: Single organization, projects per team
+    statement: use a single organization with projects per team.
     summary: One organization; teams separated by projects.
     justification: Simplest model where one central team owns the catalog.
     implications:
       - Separation relies on project membership and policies.
+    recommendedWhen:
+      - { requirement: RQ-TENANTS, in: [single] }
 default: single-org
 links: [kb-426100]

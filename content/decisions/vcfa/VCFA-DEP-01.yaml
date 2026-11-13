@@ -1,24 +1,33 @@
 id: VCFA-DEP-01
-area: vcfa-platform
-title: VCF Automation deployment form
+area: vcfa-deploy
+title: VCF Automation deployment path
 appliesTo: ["9.0", "9.1"]
 status: draft
-question: Will VCF Automation be deployed as a single node or as a highly available cluster?
-context: VCF Automation is deployed and lifecycle-managed from VCF Operations fleet management.
+question: How will VCF Automation be deployed?
+context: >
+  VCF Automation can be deployed by the VCF Installer as part of a new VCF
+  deployment, or afterwards from VCF Operations fleet management. Only the
+  fleet management path allows custom network placement.
 options:
-  - id: single-node
-    label: Single node
-    summary: One VCF Automation node.
-    justification: Lower footprint; acceptable where the consumption plane can tolerate outage during host failure recovery.
+  - id: installer
+    label: VCF Installer (with the initial VCF deployment)
+    statement: deploy VCF Automation using the VCF Installer.
+    summary: Deployed together with the other management components on the default VM management port group.
+    justification: No custom network configuration is needed; simplest and fastest path.
     implications:
-      - Protected by vSphere HA only.
-  - id: ha
-    label: High availability (3 nodes)
-    summary: Clustered VCF Automation.
-    justification: Keeps the self-service plane available through a node failure.
-    implications:
-      - Additional IPs, compute and a load-balanced FQDN.
+      - VCF Automation lands on the default management network.
+      - Moving it to another network later may require redeployment.
     recommendedWhen:
-      - { decision: VCF-DEP-01, in: [site-ha, ha-dr] }
-default: single-node
-links: [kb-426100, td-vcf9-planning]
+      - { all: [{ requirement: RQ-PATH, in: [greenfield] }, { requirement: RQ-NETSEG, in: [no] }] }
+  - id: fleet-mgmt
+    label: VCF Operations fleet management (after core deployment)
+    statement: deploy VCF Automation from VCF Operations fleet management.
+    summary: Deployed after the core management components, with custom networking if needed.
+    justification: Needed when VCF Automation is added to an existing fleet or needs a dedicated network.
+    implications:
+      - Target network and IP addressing must be prepared before deployment.
+    recommendedWhen:
+      - { requirement: RQ-PATH, in: [existing] }
+      - { requirement: RQ-NETSEG, in: [yes] }
+default: installer
+links: [kb-426100]

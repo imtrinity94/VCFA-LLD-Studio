@@ -12,18 +12,24 @@ context: >
 options:
   - id: single
     label: Single fleet
+    statement: operate a single VCF fleet.
     summary: One fleet; all VCF instances share one VCF Operations and one VCF Automation.
     justification: Gives one consumption and operations plane, and the fewest management components to run.
     implications:
       - Single VCF Automation instance serves every tenant organization.
       - Fleet-level components become a shared dependency for all sites.
+    recommendedWhen:
+      - { requirement: RQ-ISOLATION, in: [no] }
   - id: multiple
     label: Multiple fleets
+    statement: operate multiple VCF fleets.
     summary: Separate fleets per region, regulatory boundary or business unit.
     justification: Needed when hard isolation of management planes is required (sovereignty, separate operators).
     implications:
       - Each fleet runs its own VCF Operations and VCF Automation.
       - No single catalog across fleets; cross-fleet consumption must be designed separately.
+    recommendedWhen:
+      - { requirement: RQ-ISOLATION, in: [yes] }
 default: single
 links: [td-vcf9-design, tfd-vcf9-best-practices]
 diagrams: [vcf-hierarchy]

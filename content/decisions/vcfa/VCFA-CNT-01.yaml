@@ -9,15 +9,21 @@ when:
 options:
   - id: templates
     label: VCF Automation templates (blueprints)
+    statement: build catalog items from VCF Automation templates.
     summary: Catalog items are declarative templates.
     justification: Standard approach; versionable and supports day-2 actions.
     implications:
       - Template naming and versioning standard applies.
+    recommendedWhen:
+      - { requirement: RQ-XAAS, in: [no] }
   - id: templates-and-workflows
     label: Templates + Orchestrator workflows
+    statement: build catalog items from VCF Automation templates and Orchestrator workflows.
     summary: Templates for IaaS, workflows for non-IaaS services.
     justification: Covers XaaS-style services that are not machine provisioning.
     implications:
       - Orchestrator content packaged and lifecycle-managed alongside templates.
+    recommendedWhen:
+      - { requirement: RQ-XAAS, in: [yes] }
 default: templates
 links: []

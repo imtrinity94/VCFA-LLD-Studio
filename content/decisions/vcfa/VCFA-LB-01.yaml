@@ -1,0 +1,32 @@
+id: VCFA-LB-01
+area: vcfa-lb
+title: VCF Automation load balancing
+appliesTo: ["9.0", "9.1"]
+status: draft
+question: Will an external load balancer be placed in front of VCF Automation?
+context: >
+  A native Kubernetes load balancer is configured automatically during
+  deployment and cannot be removed. An external load balancer (for example
+  VMware Avi) can be added later in front of it.
+options:
+  - id: native
+    label: Native load balancer only
+    statement: use the native load balancer for VCF Automation.
+    summary: No additional load balancer.
+    justification: Configured automatically; no extra components to manage.
+    implications: []
+    recommendedWhen:
+      - { requirement: RQ-EXTLB, in: [no] }
+  - id: external
+    label: External load balancer in front of native
+    statement: place an external load balancer in front of the native VCF Automation load balancer.
+    summary: Enterprise load balancer forwards to the native load balancer.
+    justification: Required by enterprise network standards for user-facing services.
+    implications:
+      - Configured after deployment.
+      - Needs an extra VIP, FQDN and certificate.
+      - Traffic must be forwarded to the native load balancer.
+    recommendedWhen:
+      - { requirement: RQ-EXTLB, in: [yes] }
+default: native
+links: []

@@ -1,8 +1,8 @@
 {
   "name": "vcf-lld-studio",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
-  "description": "Design-decision catalogue and LLD generator for VCF and VCF Automation. No customer data lives here.",
+  "description": "Requirements-driven design selection for VCF and VCF Automation, exported as a design reference sheet for the LLD. No customer data lives here.",
   "type": "module",
   "scripts": {
     "validate": "node scripts/build-content.mjs --check",
@@ -18,7 +18,6 @@
     "js-yaml": "^5.5.0"
   },
   "dependencies": {
-    "docxtemplater": "^3.71.1",
-    "pizzip": "^3.3.0"
+    "exceljs": "^4.4.0"
   }
 }

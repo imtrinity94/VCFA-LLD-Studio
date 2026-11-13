@@ -12,28 +12,38 @@ context: >
 options:
   - id: basic
     label: Basic
+    statement: follow the Basic fleet deployment design.
     summary: Single site, single node per management component.
     justification: Lowest footprint; fits labs, PoCs and small production with relaxed availability needs.
     implications:
       - Management components are protected by vSphere HA only.
+    recommendedWhen:
+      - { requirement: RQ-AVAIL, in: [standard] }
   - id: site-ha
     label: Site high availability
+    statement: follow the Site High Availability fleet deployment design.
     summary: Management components deployed for availability across fault domains or sites.
     justification: Needed when the management and consumption plane must survive a host or site failure.
     implications:
       - Higher appliance count and IP requirements.
       - VCF Automation should be deployed in its HA form.
+    recommendedWhen:
+      - { requirement: RQ-AVAIL, in: [high] }
   - id: dr
     label: Disaster recovery
+    statement: follow the Disaster Recovery fleet deployment design.
     summary: Recoverable to a second site.
     justification: Needed when there is a recovery-site requirement with RPO/RTO targets.
     implications:
       - Recovery runbooks needed for fleet-level components.
   - id: ha-dr
     label: HA + DR
+    statement: follow the combined HA and DR fleet deployment design.
     summary: Combined site HA and disaster recovery.
     justification: Highest availability; for critical platforms.
     implications:
       - Largest footprint and operational complexity.
+    recommendedWhen:
+      - { requirement: RQ-AVAIL, in: [high-dr] }
 default: basic
 links: [tfd-vcf9-best-practices, td-vcf9-design, td-vcf9-planning]

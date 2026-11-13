@@ -9,16 +9,22 @@ when:
 options:
   - id: single-region
     label: Single region
+    statement: expose a single region to All Apps organizations.
     summary: One region backed by the workload domain Supervisor(s).
     justification: Fits a single site.
     implications:
       - All tenant namespaces land in one failure domain.
+    recommendedWhen:
+      - { requirement: RQ-SITES, in: [one] }
   - id: region-per-site
     label: One region per site
+    statement: expose one region per site to All Apps organizations.
     summary: Each site's Supervisor capacity is exposed as its own region.
     justification: Lets tenants choose placement and build multi-site applications.
     implications:
       - Tenant-facing region naming standard required.
       - Quotas and VPC connectivity defined per region.
+    recommendedWhen:
+      - { requirement: RQ-SITES, in: [multi] }
 default: single-region
 links: []

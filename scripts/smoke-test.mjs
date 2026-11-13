@@ -1,33 +1,41 @@
-// Renders a sample LLD (MD + DOCX) from the built content with a fake profile.
-// Run after `npm run build`: node scripts/smoke-test.mjs  -> writes to ./out/
+// Renders a sample design reference sheet (.xlsx) from the built content with a fake profile.
+// Run after `npm run build`: node scripts/smoke-test.mjs  -> writes out/sample-reference-sheet.xlsx
 import fs from 'node:fs';
-import PizZip from 'pizzip';
-import Docxtemplater from 'docxtemplater';
-import { buildModel, toMarkdown, stats } from '../site/src/model.js';
+import ExcelJS from 'exceljs';
+import { stats, buildSheetData } from '../site/src/model.js';
+import { buildWorkbook } from '../site/src/sheet.js';
 
 const content = JSON.parse(fs.readFileSync('site/data/content.json', 'utf8'));
 const profile = {
-  meta: { customer: 'Sample Co', projectType: 'mbcom', vcfVersion: '9.0', docVersion: '0.1', author: 'Architect' },
-  choices: {
-    'VCF-FLT-01': 'multiple', 'VCF-DEP-01': 'site-ha', 'VCF-INS-01': 'multiple', 'VCF-IAM-01': 'embedded', // embedded conflicts with multiple instances
-    'VCF-WLD-01': 'dedicated', 'VCF-NET-01': 'nsx-vpc', 'VCF-SUP-01': 'enabled',
-    'VCFA-DEP-01': 'ha', 'VCFA-TEN-01': 'both', 'VCFA-ORG-01': 'per-bu', 'VCFA-REG-01': 'region-per-site',
-    'VCFA-CNT-01': 'templates',
+  meta: { customer: 'Sample Co', customerCode: 'SMPL', projectType: 'broadcom', vcfVersion: '9.1', docVersion: '0.1', author: 'Architect' },
+  answers: {
+    'RQ-SITES': 'one', 'RQ-ISOLATION': 'no', 'RQ-AVAIL': 'high', 'RQ-TENANTS': 'single', 'RQ-MIGRATION': 'yes',
+    'RQ-K8S': 'no', 'RQ-SELFNET': 'no', 'RQ-PATH': 'greenfield', 'RQ-SCALE': 'medium', 'RQ-VCFA-COUNT': 'one',
+    'RQ-VRO': 'yes', 'RQ-ORG-WORKFLOWS': 'no', 'RQ-NETSEG': 'no', 'RQ-EXTLB': 'no', 'RQ-IDP': 'same',
+    // RQ-XAAS intentionally unanswered
   },
-  notes: { 'VCFA-TEN-01': 'Legacy BU stays on VM Apps for phase 1.' },
-  justifications: {}, excluded: {},
+  choices: {}, notes: { 'VCFA-TEN-01': 'Phase 1 focuses on migrating existing 8.x content.' }, justifications: {}, excluded: {},
 };
+
+// pretend the architect clicked "Apply recommendations", then overrode one decision
+const { createEvaluator } = await import('../site/src/model.js');
+for (let pass = 0; pass < 5; pass++) {
+  const ev = createEvaluator(content, profile);
+  for (const d of content.decisions) {
+    const r = ev.evaluate(d.id);
+    if (r.applicable && !profile.choices[d.id] && r.recommendedIds.length) profile.choices[d.id] = r.recommendedIds[0];
+  }
+}
+profile.choices['VCFA-LB-01'] = 'external'; // override (recommended: native)
 
 const s = stats(content, profile);
 console.log('stats', s);
-if (s.conflicts !== 1) throw new Error('expected exactly one conflict (VCF-IAM-01 embedded vs multiple instances)');
-
-const m = buildModel(content, profile);
+const data = buildSheetData(content, profile);
+console.log('sheet stats', data.stats, 'open items', data.openItems.length);
+if (data.stats.overrides !== 1) throw new Error('expected one override');
+if (!data.requirements.some((q) => q.id === 'RQ-XAAS' && !q.answer)) throw new Error('RQ-XAAS should be unanswered');
+const wb = await buildWorkbook(ExcelJS, data);
 fs.mkdirSync('out', { recursive: true });
-fs.writeFileSync('out/sample-lld.md', toMarkdown(m, 'diagrams/'));
-const zip = new PizZip(fs.readFileSync('templates/generic-lld-template.docx'));
-const doc = new Docxtemplater(zip, { paragraphLoop: true, linebreaks: true, nullGetter: () => '' });
-doc.render(m);
-fs.writeFileSync('out/sample-lld.docx', doc.getZip().generate({ type: 'nodebuffer' }));
-console.log('pending', m.pending.map((p) => `${p.id}:${p.reason}`).join(', '));
-console.log('wrote out/sample-lld.md and out/sample-lld.docx');
+await wb.xlsx.writeFile('out/sample-reference-sheet.xlsx');
+for (const d of data.decisions) console.log(`${(d.reqId || '-').padEnd(24)} ${d.status.padEnd(15)} ${(d.basis || '').padEnd(28)} ${d.selected}`);
+console.log('wrote out/sample-reference-sheet.xlsx');

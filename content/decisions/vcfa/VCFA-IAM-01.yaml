@@ -1,0 +1,31 @@
+id: VCFA-IAM-01
+area: vcfa-iam
+title: Provider and tenant identity providers
+appliesTo: ["9.0", "9.1"]
+status: draft
+question: Will the provider and tenant organizations use the same identity provider?
+context: >
+  Provider administrators sign in through VCF Single Sign-On (VCF Identity
+  Broker). Each tenant organization is configured with its own identity
+  provider (OIDC, SAML or LDAP).
+options:
+  - id: same
+    label: Same IdP for provider and tenants
+    statement: use the same identity provider for the provider and tenant organizations.
+    summary: One enterprise IdP behind both.
+    justification: One source of identity and simpler operations.
+    implications:
+      - Group design must clearly separate provider administrators from tenant roles.
+    recommendedWhen:
+      - { requirement: RQ-IDP, in: [same] }
+  - id: different
+    label: Different IdPs
+    statement: use a different identity provider for tenant organizations than for the provider.
+    summary: Tenants bring their own IdP.
+    justification: Tenants are separate identity domains (for example external customers or separate business units).
+    implications:
+      - One identity provider configuration per tenant organization.
+    recommendedWhen:
+      - { requirement: RQ-IDP, in: [different] }
+default: same
+links: [blog-vcf-sso]

@@ -8,17 +8,24 @@ question: Which networking stack will tenant workloads and Supervisor use?
 options:
   - id: nsx-vpc
     label: NSX with VPCs
+    statement: use NSX with VPCs for tenant workload networking.
     summary: Tenant networks are NSX Virtual Private Clouds with transit gateway connectivity.
     justification: Gives self-service, tenant-isolated networking that VCF Automation All Apps organizations consume.
     implications:
       - NSX edge and transit gateway design must be included in the VCF LLD.
       - IP blocks for VPC private/public subnets must be planned.
+    recommendedWhen:
+      - { requirement: RQ-SELFNET, in: [yes] }
+      - { requirement: RQ-K8S, in: [yes, later] }
   - id: vds
     label: vSphere Distributed Switch (no NSX overlay)
+    statement: use vSphere Distributed Switch (VLAN-backed) networking for tenant workloads.
     summary: VLAN-backed port groups on VDS.
     justification: Simpler networking where self-service network creation is not required.
     implications:
       - No self-service network creation for tenants.
       - Limits which VCF Automation consumption models can be offered.
+    recommendedWhen:
+      - { all: [{ requirement: RQ-SELFNET, in: [no] }, { requirement: RQ-K8S, in: [no] }] }
 default: nsx-vpc
 links: [td-vcf9-design]

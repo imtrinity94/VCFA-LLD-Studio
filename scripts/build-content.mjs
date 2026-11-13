@@ -18,9 +18,27 @@ const { domains, areas } = load(path.join(contentDir, 'areas.yaml'));
 const links = load(path.join(contentDir, 'links.yaml')) || [];
 const diagrams = load(path.join(contentDir, 'diagrams.yaml')) || [];
 const glossary = load(path.join(contentDir, 'glossary.yaml')) || [];
+const reqDoc = load(path.join(contentDir, 'requirements.yaml')) || { groups: [], requirements: [] };
+const reqGroups = reqDoc.groups || [];
+const requirements = reqDoc.requirements || [];
+const reqById = {};
+for (const r of requirements) {
+  if (reqById[r.id]) errors.push(`requirements: duplicate id ${r.id}`);
+  reqById[r.id] = r;
+  if (!reqGroups.some((g) => g.id === r.group)) errors.push(`requirements: ${r.id} has unknown group ${r.group}`);
+  if (!Array.isArray(r.options) || r.options.length < 2) errors.push(`requirements: ${r.id} needs at least two options`);
+}
 
 const domainIds = domains.map((d) => d.id);
 const areaById = Object.fromEntries(areas.map((a) => [a.id, a]));
+const codes = new Set();
+for (const a of areas) {
+  if (!/^[A-Z][A-Z0-9]{1,5}$/.test(a.code || '')) errors.push(`areas: ${a.id} needs a code of 2-6 capitals/digits`);
+  const k = `${a.domain}:${a.code}`;
+  if (codes.has(k)) errors.push(`areas: duplicate code ${a.code} in domain ${a.domain}`);
+  codes.add(k);
+}
+for (const d of domains) if (!d.reqPrefix) errors.push(`domains: ${d.id} needs reqPrefix`);
 const linkIds = new Set();
 for (const l of links) {
   if (linkIds.has(l.id)) errors.push(`links: duplicate id ${l.id}`);
@@ -46,8 +64,17 @@ for (const dom of domainIds) {
 }
 const byId = Object.fromEntries(decisions.map((d) => [d.id, d]));
 
+// Flattens { all: [...] } groups into plain conditions.
+const flat = (conds) => (conds || []).flatMap((c) => (c.all ? flat(c.all) : [c]));
+
 const checkConds = (owner, label, conds) => {
-  for (const c of conds || []) {
+  for (const c of flat(conds)) {
+    if (c.requirement) {
+      const r = reqById[c.requirement];
+      if (!r) { errors.push(`${owner}: ${label} refers to unknown requirement ${c.requirement}`); continue; }
+      for (const o of c.in || []) if (!r.options.some((x) => x.id === o)) errors.push(`${owner}: ${label} refers to unknown answer ${c.requirement}.${o}`);
+      continue;
+    }
     const target = byId[c.decision];
     if (!target) { errors.push(`${owner}: ${label} refers to unknown decision ${c.decision}`); continue; }
     for (const o of c.in || []) {
@@ -94,8 +121,8 @@ for (const d of decisions) {
 const deps = {};
 for (const d of decisions) {
   const s = new Set();
-  for (const c of d.when || []) s.add(c.decision);
-  for (const o of d.options || []) for (const c of [...(o.requires || []), ...(o.recommendedWhen || [])]) s.add(c.decision);
+  for (const c of flat(d.when)) if (c.decision) s.add(c.decision);
+  for (const o of d.options || []) for (const c of flat([...(o.requires || []), ...(o.recommendedWhen || [])])) if (c.decision) s.add(c.decision);
   s.delete(d.id);
   deps[d.id] = [...s];
 }
@@ -111,6 +138,10 @@ decisions.forEach((d) => visit(d.id, []));
 const dependents = {};
 for (const [id, list] of Object.entries(deps)) for (const n of list) (dependents[n] ||= []).push(id);
 
+const usedReq = new Set();
+for (const d of decisions) for (const o of d.options || []) for (const c of flat([...(o.requires || []), ...(o.recommendedWhen || [])])) if (c.requirement) usedReq.add(c.requirement);
+for (const r of requirements) if (!usedReq.has(r.id)) warnings.push(`requirements: ${r.id} is not used by any decision`);
+
 // ---- report ----
 warnings.forEach((w) => console.warn('warn ', w));
 if (errors.length) {
@@ -118,7 +149,7 @@ if (errors.length) {
   console.error(`\n${errors.length} error(s). Content not built.`);
   process.exit(1);
 }
-console.log(`ok   ${decisions.length} decisions, ${links.length} links, ${diagrams.length} diagrams, ${glossary.length} glossary terms`);
+console.log(`ok   ${requirements.length} requirements, ${decisions.length} decisions, ${links.length} links, ${diagrams.length} diagrams, ${glossary.length} glossary terms`);
 if (checkOnly) process.exit(0);
 
 // ---- write ----
@@ -128,7 +159,7 @@ const pkg = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'))
 const out = {
   version: pkg.version,
   builtAt: new Date().toISOString(),
-  domains, areas, links, diagrams, glossary,
+  domains, areas, links, diagrams, glossary, reqGroups, requirements,
   decisions: decisions.map(({ _file, ...d }) => ({ ...d, file: _file, dependsOn: deps[d.id], dependents: dependents[d.id] || [] })),
 };
 fs.mkdirSync(outDir, { recursive: true });

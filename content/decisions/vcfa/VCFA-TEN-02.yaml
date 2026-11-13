@@ -1,0 +1,31 @@
+id: VCFA-TEN-02
+area: vcfa-tenancy
+order: 0
+title: Platform perspective (Enterprise or Service Provider)
+appliesTo: ["9.0", "9.1"]
+status: draft
+question: Will VCF Automation be operated from the Enterprise or the Service Provider perspective?
+context: >
+  The Enterprise perspective covers internal IT and business units consuming
+  the platform. The Service Provider perspective is for operators that offer
+  cloud services to external customers.
+options:
+  - id: enterprise
+    label: Enterprise perspective
+    statement: use the Enterprise perspective for the VCF Automation platform.
+    summary: Internal IT and business units consume the platform.
+    justification: The platform serves internal consumers only; service provider capabilities are not needed.
+    implications: []
+    recommendedWhen:
+      - { requirement: RQ-TENANTS, in: [single, multi-bu] }
+  - id: provider
+    label: Service Provider perspective
+    statement: use the Service Provider perspective for the VCF Automation platform.
+    summary: The platform is offered as a service to external customers.
+    justification: External tenants need the provider operating model and separation.
+    implications:
+      - Tenant onboarding, branding and metering processes must be designed.
+    recommendedWhen:
+      - { requirement: RQ-TENANTS, in: [provider] }
+default: enterprise
+links: []

@@ -11,17 +11,23 @@ context: >
 options:
   - id: single
     label: Single instance
+    statement: deploy a single VCF instance per fleet.
     summary: One management domain per fleet.
     justification: Simplest topology; fits a single site or a stretched design.
     implications:
       - Fleet-level and instance-level components share one management domain.
+    recommendedWhen:
+      - { requirement: RQ-SITES, in: [one] }
   - id: multiple
     label: Multiple instances
+    statement: deploy multiple VCF instances in the fleet.
     summary: Additional instances (for example per site) join the same fleet.
     justification: Scales out across sites while keeping one consumption and operations plane.
     implications:
       - Identity Broker must be able to serve several instances.
       - Placement of fleet-level components must be decided.
+    recommendedWhen:
+      - { requirement: RQ-SITES, in: [multi] }
 default: single
 links: [td-vcf9-design, tfd-vcf9-best-practices]
 diagrams: [vcf-hierarchy]

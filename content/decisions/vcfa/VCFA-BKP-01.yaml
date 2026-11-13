@@ -1,0 +1,24 @@
+id: VCFA-BKP-01
+area: vcfa-backup
+title: VCF Automation backup approach
+appliesTo: ["9.0", "9.1"]
+status: draft
+question: How will VCF Automation be backed up?
+context: VCF Automation supports file-based backup.
+options:
+  - id: scheduled
+    label: Scheduled file-based backups with retention
+    statement: configure all management components, including VCF Automation, with a regular backup schedule and retention policy.
+    summary: Regular scheduled backups to a backup target.
+    justification: Regular backups of management components are essential for resilience and continuity.
+    implications:
+      - Backup target (for example SFTP) capacity and retention must be provided.
+  - id: on-demand
+    label: On-demand backups only
+    statement: take on-demand VCF Automation backups before planned changes.
+    summary: Backups taken manually before changes.
+    justification: Acceptable only for lab or proof-of-concept environments.
+    implications:
+      - Risk of data loss between manual backups.
+default: scheduled
+links: []

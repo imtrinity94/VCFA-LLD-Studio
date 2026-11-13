@@ -1,0 +1,33 @@
+id: VCFA-ORCH-01
+area: vcfa-orchestrator
+title: Orchestrator deployment option
+appliesTo: ["9.0", "9.1"]
+status: draft
+question: Will organizations use the embedded Orchestrator or an external Orchestrator instance?
+context: >
+  An embedded VCF Operations orchestrator is installed with VCF Automation and
+  is used by the provider. An external orchestrator is installed manually,
+  for organizations that create and publish their own workflows (one instance
+  per organization).
+options:
+  - id: embedded
+    label: Embedded Orchestrator
+    statement: use the embedded Orchestrator for VCF Automation.
+    summary: Provider-owned workflows published to organizations.
+    justification: Installed by default; no extra appliance to manage.
+    implications:
+      - Workflow content is owned by the provider team.
+    recommendedWhen:
+      - { requirement: RQ-ORG-WORKFLOWS, in: [no] }
+  - id: external
+    label: External Orchestrator per organization
+    statement: deploy an external Orchestrator for organizations that author their own workflows.
+    summary: Separate orchestrator instance for an organization.
+    justification: Lets an organization create and publish its own workflows.
+    implications:
+      - Manual installation and lifecycle per instance.
+      - One orchestrator instance per organization.
+    recommendedWhen:
+      - { requirement: RQ-ORG-WORKFLOWS, in: [yes] }
+default: embedded
+links: []

@@ -15,6 +15,7 @@ context: >
 options:
   - id: embedded
     label: Embedded in management domain vCenter
+    statement: deploy the VCF Identity Broker in embedded mode in the management domain vCenter.
     summary: Runs inside the management domain vCenter; no extra appliances.
     justification: Simple and low footprint for a single VCF instance.
     implications:
@@ -22,8 +23,11 @@ options:
       - Backup and availability follow the management vCenter.
     requires:
       - { decision: VCF-INS-01, in: [single] }
+    recommendedWhen:
+      - { decision: VCF-INS-01, in: [single] }
   - id: appliance
     label: Identity Broker appliance (3-node cluster)
+    statement: deploy the VCF Identity Broker as a three-node appliance cluster.
     summary: Standalone 3-node Identity Broker cluster serving the fleet.
     justification: Provides SSO across multiple VCF instances in the fleet with its own HA.
     implications:

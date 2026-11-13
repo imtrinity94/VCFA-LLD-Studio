@@ -9,18 +9,25 @@ when:
 options:
   - id: vro
     label: Orchestrator workflows
+    statement: use Orchestrator workflows for extensibility.
     summary: Embedded VCF Operations Orchestrator for subscriptions and day-2 actions.
     justification: Mature plug-in ecosystem and reuse of existing vRO content.
     implications:
       - Orchestrator package, folder and naming standard applies.
+    recommendedWhen:
+      - { requirement: RQ-VRO, in: [yes] }
   - id: abx
     label: ABX actions
+    statement: use ABX actions for extensibility.
     summary: Lightweight function-style actions.
     justification: Simple scripted integrations without workflow overhead.
     implications:
       - Action runtime and secrets handling to be documented.
+    recommendedWhen:
+      - { requirement: RQ-VRO, in: [no] }
   - id: both
     label: Both, by use case
+    statement: use Orchestrator workflows and ABX actions, chosen per use case.
     summary: vRO for integrations with plug-ins, ABX for small scripts.
     justification: Uses each engine where it fits.
     implications:
