@@ -1,0 +1,36 @@
+id: VCF-IAM-01
+area: vcf-identity
+title: VCF Identity Broker deployment mode
+appliesTo: ["9.0"]
+versionNotes:
+  "9.1": >
+    In VCF 9.1 the Identity Broker is consolidated into VCF Management Services
+    (deployed automatically on the first instance). Re-check this decision for 9.1 designs.
+status: draft
+question: How will the VCF Identity Broker (VCF Single Sign-On) be deployed?
+context: >
+  The Identity Broker federates the external IdP for vCenter, NSX, VCF Operations
+  and VCF Automation. Only one mode can be active per VCF instance; switching from
+  embedded to appliance requires resetting SSO.
+options:
+  - id: embedded
+    label: Embedded in management domain vCenter
+    summary: Runs inside the management domain vCenter; no extra appliances.
+    justification: Simple and low footprint for a single VCF instance.
+    implications:
+      - vCenter linking across instances is not supported with the embedded broker.
+      - Backup and availability follow the management vCenter.
+    requires:
+      - { decision: VCF-INS-01, in: [single] }
+  - id: appliance
+    label: Identity Broker appliance (3-node cluster)
+    summary: Standalone 3-node Identity Broker cluster serving the fleet.
+    justification: Provides SSO across multiple VCF instances in the fleet with its own HA.
+    implications:
+      - Three additional appliances to size, certify and back up.
+      - Recommended when more than one VCF instance connects to the broker.
+    recommendedWhen:
+      - { decision: VCF-INS-01, in: [multiple] }
+      - { decision: VCF-DEP-01, in: [site-ha, ha-dr] }
+default: embedded
+links: [blog-vcf-sso, kb-446908, kb-413884, kb-444003, wl-multi-idp]

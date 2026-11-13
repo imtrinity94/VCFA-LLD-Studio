@@ -1,0 +1,39 @@
+id: VCF-DEP-01
+area: vcf-fleet
+order: 2
+title: Fleet deployment design model
+appliesTo: ["9.0", "9.1"]
+status: draft
+question: Which reference deployment design does the fleet follow?
+context: >
+  Broadcom describes four deployment designs, with Basic as the foundation the
+  others build on. This choice drives how many appliances are deployed and
+  whether management components (including VCF Automation) are made highly available.
+options:
+  - id: basic
+    label: Basic
+    summary: Single site, single node per management component.
+    justification: Lowest footprint; fits labs, PoCs and small production with relaxed availability needs.
+    implications:
+      - Management components are protected by vSphere HA only.
+  - id: site-ha
+    label: Site high availability
+    summary: Management components deployed for availability across fault domains or sites.
+    justification: Needed when the management and consumption plane must survive a host or site failure.
+    implications:
+      - Higher appliance count and IP requirements.
+      - VCF Automation should be deployed in its HA form.
+  - id: dr
+    label: Disaster recovery
+    summary: Recoverable to a second site.
+    justification: Needed when there is a recovery-site requirement with RPO/RTO targets.
+    implications:
+      - Recovery runbooks needed for fleet-level components.
+  - id: ha-dr
+    label: HA + DR
+    summary: Combined site HA and disaster recovery.
+    justification: Highest availability; for critical platforms.
+    implications:
+      - Largest footprint and operational complexity.
+default: basic
+links: [tfd-vcf9-best-practices, td-vcf9-design, td-vcf9-planning]

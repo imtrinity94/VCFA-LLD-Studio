@@ -1,0 +1,24 @@
+id: VCF-NET-01
+area: vcf-network
+title: Networking model for tenant workloads
+appliesTo: ["9.0", "9.1"]
+status: draft
+verify: Confirm supported Supervisor networking stacks per VCF version against TechDocs before using in an LLD.
+question: Which networking stack will tenant workloads and Supervisor use?
+options:
+  - id: nsx-vpc
+    label: NSX with VPCs
+    summary: Tenant networks are NSX Virtual Private Clouds with transit gateway connectivity.
+    justification: Gives self-service, tenant-isolated networking that VCF Automation All Apps organizations consume.
+    implications:
+      - NSX edge and transit gateway design must be included in the VCF LLD.
+      - IP blocks for VPC private/public subnets must be planned.
+  - id: vds
+    label: vSphere Distributed Switch (no NSX overlay)
+    summary: VLAN-backed port groups on VDS.
+    justification: Simpler networking where self-service network creation is not required.
+    implications:
+      - No self-service network creation for tenants.
+      - Limits which VCF Automation consumption models can be offered.
+default: nsx-vpc
+links: [td-vcf9-design]

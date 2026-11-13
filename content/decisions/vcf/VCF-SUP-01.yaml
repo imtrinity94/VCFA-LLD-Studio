@@ -1,0 +1,21 @@
+id: VCF-SUP-01
+area: vcf-supervisor
+title: vSphere Supervisor on workload clusters
+appliesTo: ["9.0", "9.1"]
+status: draft
+question: Will vSphere Supervisor be enabled on the workload domain clusters?
+options:
+  - id: enabled
+    label: Enabled
+    summary: Supervisor activated on workload clusters.
+    justification: Required for VM Service, VKS and the modern (namespace-based) consumption in VCF Automation.
+    implications:
+      - Supervisor control plane VMs, IP ranges and load balancer must be designed.
+  - id: disabled
+    label: Not enabled
+    summary: Clusters remain traditional vSphere clusters only.
+    justification: Acceptable when only classic VM provisioning is needed.
+    implications:
+      - Only the VM Apps style of consumption is available in VCF Automation.
+default: enabled
+links: [td-vcf9-design]

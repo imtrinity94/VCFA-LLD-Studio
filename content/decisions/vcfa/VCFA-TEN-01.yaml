@@ -1,0 +1,39 @@
+id: VCFA-TEN-01
+area: vcfa-tenancy
+order: 1
+title: Organization type (consumption model)
+appliesTo: ["9.0", "9.1"]
+status: draft
+verify: Confirm All Apps prerequisites (Supervisor + NSX VPC) for the target VCFA version.
+question: Which type of tenant organization will VCF Automation offer?
+context: >
+  VM Apps organizations give the classic blueprint/catalog experience (carried
+  over from Aria Automation). All Apps organizations give namespace-based,
+  Kubernetes-API consumption of VMs, VKS clusters and services in regions.
+options:
+  - id: vm-apps
+    label: VM Apps organizations
+    summary: Blueprint and catalog driven VM provisioning.
+    justification: Closest to existing Aria Automation 8.x operating model; eases migration of existing content.
+    implications:
+      - Cloud accounts, cloud zones, projects, flavor/image mappings to be designed.
+  - id: all-apps
+    label: All Apps organizations
+    summary: Region and namespace based consumption via the VCF Automation UI and Kubernetes APIs.
+    justification: Gives the modern, public-cloud-like private cloud experience.
+    implications:
+      - Regions, namespaces, VPC connectivity and quotas to be designed.
+    requires:
+      - { decision: VCF-SUP-01, in: [enabled] }
+      - { decision: VCF-NET-01, in: [nsx-vpc] }
+  - id: both
+    label: Both (per tenant)
+    summary: Different organizations use different types.
+    justification: Lets legacy tenants stay on VM Apps while new tenants adopt All Apps.
+    implications:
+      - Two operating models to document and support.
+    requires:
+      - { decision: VCF-SUP-01, in: [enabled] }
+      - { decision: VCF-NET-01, in: [nsx-vpc] }
+default: vm-apps
+links: [kb-426100]

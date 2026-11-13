@@ -1,0 +1,24 @@
+id: VCFA-DEP-01
+area: vcfa-platform
+title: VCF Automation deployment form
+appliesTo: ["9.0", "9.1"]
+status: draft
+question: Will VCF Automation be deployed as a single node or as a highly available cluster?
+context: VCF Automation is deployed and lifecycle-managed from VCF Operations fleet management.
+options:
+  - id: single-node
+    label: Single node
+    summary: One VCF Automation node.
+    justification: Lower footprint; acceptable where the consumption plane can tolerate outage during host failure recovery.
+    implications:
+      - Protected by vSphere HA only.
+  - id: ha
+    label: High availability (3 nodes)
+    summary: Clustered VCF Automation.
+    justification: Keeps the self-service plane available through a node failure.
+    implications:
+      - Additional IPs, compute and a load-balanced FQDN.
+    recommendedWhen:
+      - { decision: VCF-DEP-01, in: [site-ha, ha-dr] }
+default: single-node
+links: [kb-426100, td-vcf9-planning]

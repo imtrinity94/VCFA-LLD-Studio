@@ -1,0 +1,7 @@
+# Diagrams and reference images. Put the file in content/diagrams/.
+# Only original or permitted images. Note the source for anything adapted.
+- id: vcf-hierarchy
+  title: VCF 9 hierarchy (fleet, instance, domain, cluster)
+  file: vcf-hierarchy.svg
+  caption: Logical hierarchy used throughout the LLD. Original diagram.
+  source: ""

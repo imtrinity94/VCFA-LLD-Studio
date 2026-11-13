@@ -1,0 +1,21 @@
+# LLD section order. Decisions point at an area id; the generator emits areas in this order.
+# Domain order matters: VCF decisions come first because VCFA decisions depend on them.
+domains:
+  - id: vcf
+    title: VMware Cloud Foundation (Platform)
+  - id: vcfa
+    title: VCF Automation
+
+areas:
+  # ---- VCF ----
+  - { id: vcf-fleet,     domain: vcf,  title: Fleet and Instance Topology }
+  - { id: vcf-domains,   domain: vcf,  title: Workload Domain Design }
+  - { id: vcf-identity,  domain: vcf,  title: Identity and Access }
+  - { id: vcf-network,   domain: vcf,  title: Networking for Workloads }
+  - { id: vcf-supervisor, domain: vcf, title: vSphere Supervisor }
+  # ---- VCFA ----
+  - { id: vcfa-platform, domain: vcfa, title: VCF Automation Platform }
+  - { id: vcfa-tenancy,  domain: vcfa, title: Tenancy and Organizations }
+  - { id: vcfa-regions,  domain: vcfa, title: Regions and Resource Model }
+  - { id: vcfa-content,  domain: vcfa, title: Catalog and Templates }
+  - { id: vcfa-extensibility, domain: vcfa, title: Extensibility (Orchestrator / ABX) }

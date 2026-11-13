@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VCF LLD Studio</title>
+<meta name="description" content="Design-decision catalogue and LLD generator for VMware Cloud Foundation and VCF Automation.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231f3a5f'/%3E%3Cpath d='M8 9h6v14H8zM18 9h6v6h-6zM18 17h6v6h-6z' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand"><span class="logo"></span><div><b>VCF LLD Studio</b><small id="cat-version"></small></div></div>
+  <nav class="tabs">
+    <button class="tab" data-view="design">Design</button>
+    <button class="tab" data-view="library">Library</button>
+    <button class="tab" data-view="diagrams">Diagrams</button>
+    <button class="tab" data-view="glossary">Glossary</button>
+    <button class="tab" data-view="about">About</button>
+  </nav>
+  <div class="exports">
+    <button data-act="md">Export .md</button>
+    <button data-act="docx" class="primary">Export .docx</button>
+  </div>
+</header>
+
+<section class="metabar">
+  <label>Customer <input id="meta-customer" placeholder="local only, never committed"></label>
+  <label>Template
+    <select id="meta-projectType"><option value="mbcom">MBCOM</option><option value="broadcom">Broadcom</option></select>
+  </label>
+  <label>VCF version
+    <select id="meta-vcfVersion"><option>9.0</option><option>9.1</option></select>
+  </label>
+  <label>Doc version <input id="meta-docVersion" size="5"></label>
+  <label>Author <input id="meta-author" size="14"></label>
+  <span id="progress" class="progress"></span>
+  <span class="spacer"></span>
+  <div class="menu">
+    <button data-act="new" class="ghost">New</button>
+    <button data-act="open-profile" class="ghost">Open profile</button>
+    <button data-act="save-profile" class="ghost">Save profile</button>
+    <span class="sep"></span>
+    <button data-act="load-tpl" class="ghost">Load Word template</button>
+    <button data-act="clear-tpl" class="ghost" title="Go back to the built-in generic template">Reset template</button>
+    <a class="ghost btnlink" href="templates/generic-lld-template.docx" download>Sample template</a>
+  </div>
+  <small id="tpl-status" class="tplstatus"></small>
+  <input type="file" id="file-profile" accept=".json" hidden>
+  <input type="file" id="file-tpl" accept=".docx,.dotx" hidden>
+</section>
+
+<main id="main"></main>
+<div id="toast" class="toast" role="status"></div>
+<script src="dist/app.js"></script>
+</body>
+</html>

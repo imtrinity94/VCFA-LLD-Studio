@@ -1,0 +1,24 @@
+{
+  "name": "vcf-lld-studio",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Design-decision catalogue and LLD generator for VCF and VCF Automation. No customer data lives here.",
+  "type": "module",
+  "scripts": {
+    "validate": "node scripts/build-content.mjs --check",
+    "build:content": "node scripts/build-content.mjs",
+    "build:app": "esbuild site/src/app.js --bundle --minify --format=iife --target=es2020 --outfile=site/dist/app.js",
+    "build": "npm run build:content && npm run build:app",
+    "dev": "npm run build && python -m http.server 8080 --directory site"
+  },
+  "author": "imtrinity94",
+  "license": "MIT",
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "js-yaml": "^5.5.0"
+  },
+  "dependencies": {
+    "docxtemplater": "^3.71.1",
+    "pizzip": "^3.3.0"
+  }
+}

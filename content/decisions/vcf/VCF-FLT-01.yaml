@@ -1,0 +1,29 @@
+id: VCF-FLT-01
+area: vcf-fleet
+order: 1
+title: Number of VCF fleets
+appliesTo: ["9.0", "9.1"]
+status: draft
+question: How many VCF fleets will the private cloud be split into?
+context: >
+  A fleet is the top-level management boundary: VCF Operations and VCF Automation
+  run across every instance in it. The split is usually decided along one axis
+  (geography, regulation or business unit) and is hard to change later.
+options:
+  - id: single
+    label: Single fleet
+    summary: One fleet; all VCF instances share one VCF Operations and one VCF Automation.
+    justification: Gives one consumption and operations plane, and the fewest management components to run.
+    implications:
+      - Single VCF Automation instance serves every tenant organization.
+      - Fleet-level components become a shared dependency for all sites.
+  - id: multiple
+    label: Multiple fleets
+    summary: Separate fleets per region, regulatory boundary or business unit.
+    justification: Needed when hard isolation of management planes is required (sovereignty, separate operators).
+    implications:
+      - Each fleet runs its own VCF Operations and VCF Automation.
+      - No single catalog across fleets; cross-fleet consumption must be designed separately.
+default: single
+links: [td-vcf9-design, tfd-vcf9-best-practices]
+diagrams: [vcf-hierarchy]

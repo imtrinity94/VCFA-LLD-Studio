@@ -1,0 +1,23 @@
+id: VCFA-CNT-01
+area: vcfa-content
+title: Catalog content source
+appliesTo: ["9.0", "9.1"]
+status: draft
+question: What will VM Apps catalog items be built from?
+when:
+  - { decision: VCFA-TEN-01, in: [vm-apps, both] }
+options:
+  - id: templates
+    label: VCF Automation templates (blueprints)
+    summary: Catalog items are declarative templates.
+    justification: Standard approach; versionable and supports day-2 actions.
+    implications:
+      - Template naming and versioning standard applies.
+  - id: templates-and-workflows
+    label: Templates + Orchestrator workflows
+    summary: Templates for IaaS, workflows for non-IaaS services.
+    justification: Covers XaaS-style services that are not machine provisioning.
+    implications:
+      - Orchestrator content packaged and lifecycle-managed alongside templates.
+default: templates
+links: []

@@ -1,0 +1,27 @@
+id: VCF-INS-01
+area: vcf-fleet
+order: 3
+title: VCF instances per fleet
+appliesTo: ["9.0", "9.1"]
+status: draft
+question: How many VCF instances will each fleet contain?
+context: >
+  An instance is a management domain plus its workload domains. Several
+  instances in one fleet share the fleet-level VCF Operations and VCF Automation.
+options:
+  - id: single
+    label: Single instance
+    summary: One management domain per fleet.
+    justification: Simplest topology; fits a single site or a stretched design.
+    implications:
+      - Fleet-level and instance-level components share one management domain.
+  - id: multiple
+    label: Multiple instances
+    summary: Additional instances (for example per site) join the same fleet.
+    justification: Scales out across sites while keeping one consumption and operations plane.
+    implications:
+      - Identity Broker must be able to serve several instances.
+      - Placement of fleet-level components must be decided.
+default: single
+links: [td-vcf9-design, tfd-vcf9-best-practices]
+diagrams: [vcf-hierarchy]

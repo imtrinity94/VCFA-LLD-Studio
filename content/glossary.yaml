@@ -1,0 +1,13 @@
+- { term: Fleet, definition: "Top-level VCF 9 management boundary; VCF Operations and VCF Automation run across all instances in it." }
+- { term: VCF Instance, definition: "One SDDC Manager-managed deployment: a management domain plus its workload domains." }
+- { term: Management domain, definition: "The domain that hosts VCF management components (vCenter, NSX, SDDC Manager, and fleet components)." }
+- { term: VI workload domain, definition: "A domain with its own vCenter that hosts tenant workloads." }
+- { term: VIDB, definition: "VCF Identity Broker; federates an external identity provider for VCF Single Sign-On." }
+- { term: Supervisor, definition: "vSphere Supervisor; turns a vSphere cluster into a Kubernetes-API driven platform for VM Service and VKS." }
+- { term: VPC, definition: "NSX Virtual Private Cloud; tenant-isolated network construct consumed by VCF Automation." }
+- { term: VM Apps organization, definition: "VCF Automation organization type for blueprint/catalog driven VM provisioning." }
+- { term: All Apps organization, definition: "VCF Automation organization type for region/namespace based consumption via Kubernetes APIs." }
+- { term: Region, definition: "In VCF Automation All Apps, a placement target backed by Supervisor capacity." }
+- { term: ABX, definition: "Action Based Extensibility; function-style scripts run by VCF Automation." }
+- { term: vRO, definition: "VCF Operations Orchestrator (formerly vRealize/Aria Automation Orchestrator); workflow engine embedded in VCF Automation." }
+- { term: LLD, definition: "Low Level Design document." }

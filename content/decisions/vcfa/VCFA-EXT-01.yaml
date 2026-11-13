@@ -1,0 +1,29 @@
+id: VCFA-EXT-01
+area: vcfa-extensibility
+title: Extensibility engine
+appliesTo: ["9.0", "9.1"]
+status: draft
+question: Which engine will implement lifecycle extensibility (event subscriptions, custom actions)?
+when:
+  - { decision: VCFA-TEN-01, in: [vm-apps, both] }
+options:
+  - id: vro
+    label: Orchestrator workflows
+    summary: Embedded VCF Operations Orchestrator for subscriptions and day-2 actions.
+    justification: Mature plug-in ecosystem and reuse of existing vRO content.
+    implications:
+      - Orchestrator package, folder and naming standard applies.
+  - id: abx
+    label: ABX actions
+    summary: Lightweight function-style actions.
+    justification: Simple scripted integrations without workflow overhead.
+    implications:
+      - Action runtime and secrets handling to be documented.
+  - id: both
+    label: Both, by use case
+    summary: vRO for integrations with plug-ins, ABX for small scripts.
+    justification: Uses each engine where it fits.
+    implications:
+      - Clear rule needed for which engine a new use case goes to.
+default: vro
+links: []

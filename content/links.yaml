@@ -1,0 +1,101 @@
+# Reference library. Every link has a stable id that decisions refer to.
+# source: techdocs | kb | blog | community | video
+# product: vcf | vcfa | vro | nsx | vsphere | general
+# versions: VCF/VCFA versions the page states it applies to (be exact; leave empty if the page doesn't say)
+# topics: free tags used by the Library search
+
+- id: td-vcf9-design
+  title: VCF 9.0 Design (design guide, blueprints and options)
+  url: https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-0/design.html
+  source: techdocs
+  product: vcf
+  versions: ["9.0"]
+  topics: [design, fleet, blueprint, architecture]
+
+- id: td-vcf9-planning
+  title: VCF 9.0 Planning and Preparation (incl. Planning and Preparation Workbook)
+  url: https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-0/planning-and-preparation.html
+  source: techdocs
+  product: vcf
+  versions: ["9.0"]
+  topics: [planning, sizing, workbook]
+
+- id: td-vcf91-release-notes
+  title: VCF 9.1 Release Notes
+  url: https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-1/release-notes.html
+  source: techdocs
+  product: vcf
+  versions: ["9.1"]
+  topics: [release-notes, whats-new]
+
+- id: kb-426100
+  title: "KB 426100: Recommended deployment journey for VCF Automation in VCF 9.0"
+  url: https://knowledge.broadcom.com/external/article/426100/recommended-deployment-journey-for-vcf-a.html
+  source: kb
+  product: vcfa
+  versions: ["9.0"]
+  topics: [deployment, provider, organizations, journey]
+
+- id: kb-446908
+  title: "KB 446908: vCenter instance missing from Web UI after vCenter linking (embedded Identity Broker unsupported)"
+  url: https://knowledge.broadcom.com/external/article/446908/vcenter-instance-missing-from-web-ui-aft.html
+  source: kb
+  product: vcf
+  versions: []
+  topics: [identity, vidb, vcenter-linking]
+
+- id: kb-413884
+  title: "KB 413884: Unable to set up Identity Broker appliance when embedded mode is already configured"
+  url: https://knowledge.broadcom.com/external/article/413884/vcf-9x-unable-to-setup-identity-broker-a.html
+  source: kb
+  product: vcf
+  versions: ["9.x"]
+  topics: [identity, vidb, troubleshooting]
+
+- id: kb-444003
+  title: "KB 444003: VIDB incorrectly identified as Embedded after VCF 9.1 upgrade"
+  url: https://knowledge.broadcom.com/external/article/444003/vidb-incorrectly-identified-as-embedded.html
+  source: kb
+  product: vcf
+  versions: ["9.0.2", "9.1"]
+  topics: [identity, vidb, upgrade, troubleshooting]
+
+- id: blog-vcf-sso
+  title: Streamline administrative access with VCF Single Sign-On (VCF blog)
+  url: https://blogs.vmware.com/cloud-foundation/2025/06/19/streamline-administrative-access-with-vcf-single-sign-on/
+  source: blog
+  product: vcf
+  versions: ["9.0"]
+  topics: [identity, sso, vidb]
+
+- id: blog-vcf9-planning
+  title: Planning a successful VMware Cloud Foundation 9.0 deployment (VCF blog)
+  url: https://blogs.vmware.com/cloud-foundation/2025/07/28/planning-a-successful-vmware-cloud-foundation-9-0-deployment/
+  source: blog
+  product: vcf
+  versions: ["9.0"]
+  topics: [planning, deployment-pathways, sizing]
+
+- id: blog-vcf9-paths-to-adoption
+  title: Global Support's VMware Cloud Foundation 9 paths to adoption (VCF blog)
+  url: https://blogs.vmware.com/cloud-foundation/2026/02/06/global-supports-vmware-cloud-foundation-9-paths-to-adoption
+  source: blog
+  product: vcf
+  versions: ["9.0"]
+  topics: [adoption, index, automation]
+
+- id: wl-multi-idp
+  title: Multiple VCF SSO identity providers for a VCF fleet (William Lam)
+  url: https://williamlam.com/2025/10/multiple-vcf-sso-identity-providers-for-vmware-cloud-foundation-vcf-fleet.html
+  source: community
+  product: vcf
+  versions: ["9.0"]
+  topics: [identity, vidb, multi-idp]
+
+- id: tfd-vcf9-best-practices
+  title: Best practices for adopting and deploying VCF 9.0 (Tech Field Day, Jared Burns)
+  url: https://techfieldday.com/video/best-practices-for-adopting-deploying-vmware-cloud-foundation-9-0
+  source: video
+  product: vcf
+  versions: ["9.0"]
+  topics: [design, fleet, basic, site-ha, dr]

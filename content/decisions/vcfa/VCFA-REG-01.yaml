@@ -1,0 +1,24 @@
+id: VCFA-REG-01
+area: vcfa-regions
+title: Region layout for All Apps organizations
+appliesTo: ["9.0", "9.1"]
+status: draft
+question: How will regions be laid out for All Apps organizations?
+when:
+  - { decision: VCFA-TEN-01, in: [all-apps, both] }
+options:
+  - id: single-region
+    label: Single region
+    summary: One region backed by the workload domain Supervisor(s).
+    justification: Fits a single site.
+    implications:
+      - All tenant namespaces land in one failure domain.
+  - id: region-per-site
+    label: One region per site
+    summary: Each site's Supervisor capacity is exposed as its own region.
+    justification: Lets tenants choose placement and build multi-site applications.
+    implications:
+      - Tenant-facing region naming standard required.
+      - Quotas and VPC connectivity defined per region.
+default: single-region
+links: []

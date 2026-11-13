@@ -1,0 +1,15 @@
+node_modules/
+out/
+# build output (GitHub Actions rebuilds these)
+site/data/
+site/dist/
+site/diagrams/
+site/templates/
+# never commit customer material
+*lld-profile*.json
+private/
+customers/
+*.customer.*
+# real MBCOM / Broadcom templates stay off the public repo
+templates/mbcom*
+templates/broadcom*
