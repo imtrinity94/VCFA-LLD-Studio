@@ -72,7 +72,7 @@ export function stats(content, profile) {
   return { applicable, decided, conflicts };
 }
 
-// Short customer code used in requirement IDs (e.g. ABSA, CIB). Falls back to the customer name.
+// Short customer code used in requirement IDs (e.g. ACME). Falls back to the customer name.
 export function customerCode(meta) {
   const raw = (meta.customerCode || meta.customer || 'CUST').toUpperCase().replace(/[^A-Z0-9]/g, '');
   return raw.slice(0, 8) || 'CUST';
