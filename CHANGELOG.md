@@ -2,6 +2,11 @@
 
 Newest first. The catalogue version is the `version` in `package.json` and is stamped into every export.
 
+## 0.2.1 — 2026-11-13
+
+- Renamed the app to VCFA LLD Studio to match the repo, added the live GitHub Pages link to the README, and refreshed the social preview image.
+- Saved browser profiles carry over (the storage key is unchanged).
+
 ## 0.2.0 — 2026-11-13
 
 - Changed focus from generating the LLD to selecting the design: the main output is now the Design Reference Sheet (.xlsx), with Overview, Requirements, Design Decisions, Open Items, References, Diagrams and Glossary sheets.

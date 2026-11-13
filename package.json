@@ -1,6 +1,6 @@
 {
-  "name": "vcf-lld-studio",
-  "version": "0.2.0",
+  "name": "vcfa-lld-studio",
+  "version": "0.2.1",
   "private": true,
   "description": "Requirements-driven design selection for VCF and VCF Automation, exported as a design reference sheet for the LLD. No customer data lives here.",
   "type": "module",

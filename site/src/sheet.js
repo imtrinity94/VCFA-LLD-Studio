@@ -28,7 +28,7 @@ function table(ws, columns, rows, opts = {}) {
 
 export async function buildWorkbook(ExcelJS, data) {
   const wb = new ExcelJS.Workbook();
-  wb.creator = data.meta.author || 'VCF LLD Studio';
+  wb.creator = data.meta.author || 'VCFA LLD Studio';
   wb.created = new Date();
   const m = data.meta;
   const s = data.stats;

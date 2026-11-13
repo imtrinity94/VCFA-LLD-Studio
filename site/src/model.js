@@ -156,7 +156,7 @@ export function buildModel(content, profile) {
     vcfVersion: profile.meta.vcfVersion || '',
     date: today,
     catalogueVersion: content.version,
-    versionHistory: [{ date: today, version: profile.meta.docVersion || '0.1', author: profile.meta.author || '', contributors: '', description: 'Draft generated from VCF LLD Studio', reviewers: '' }],
+    versionHistory: [{ date: today, version: profile.meta.docVersion || '0.1', author: profile.meta.author || '', contributors: '', description: 'Draft generated from VCFA LLD Studio', reviewers: '' }],
     domains,
     summary: all.map((d) => ({ ref: d.ref, reqId: d.reqId, id: d.id, title: d.title, decision: d.decision })),
     pending,
